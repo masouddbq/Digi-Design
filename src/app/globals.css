@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Vazirmatn Variable", Tahoma, ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #ef394e;
+  --color-brand-soft: #fff1f3;
+  --color-accent: #19bfd3;
+  --color-ink: #23254e;
+  --color-muted: #81858b;
+  --color-line: #f0f0f1;
+  --color-surface: #f6f7f9;
+  --shadow-soft: 0 1px 2px rgb(16 24 40 / 0.04), 0 4px 16px rgb(16 24 40 / 0.06);
+  --animate-spin-3d: spin3d 14s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@keyframes spin3d {
+  from { transform: rotateX(-18deg) rotateY(0deg); }
+  to { transform: rotateX(-18deg) rotateY(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white font-sans text-[13px] leading-relaxed text-neutral-800 antialiased sm:text-sm;
+    font-feature-settings: "ss01";
+  }
+  ::selection {
+    background: var(--color-brand);
+    color: white;
+  }
+  input, button, select, textarea {
+    font: inherit;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility container-x {
+  width: 100%;
+  max-width: 1336px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @variant lg {
+    padding-inline: 1.5rem;
+  }
+}
+
+@utility ltr-num {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* مکعب سه‌بعدی سبک، فقط با CSS (بدون کتابخانه) */
+.cube-scene {
+  perspective: 600px;
+}
+.cube {
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+  transform-style: preserve-3d;
+  animation: var(--animate-spin-3d);
+}
+.cube > span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.28), rgb(255 255 255 / 0.06));
+  backdrop-filter: blur(2px);
+  color: white;
+  font-weight: 800;
+  font-size: calc(var(--s) * 0.32);
+  backface-visibility: visible;
+}
+.cube > span:nth-child(1) { transform: rotateY(0deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(2) { transform: rotateY(90deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(3) { transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(4) { transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(5) { transform: rotateX(90deg) translateZ(calc(var(--s) / 2)); }
+.cube > span:nth-child(6) { transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
+
+.tilt-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
